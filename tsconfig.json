@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
+    "sourceMap": true,
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
     "lib": ["ESNext"],
-    "module": "esnext",
-    "target": "esnext",
     // "bun-types" is the important part
     "types": ["bun-types"]
   }

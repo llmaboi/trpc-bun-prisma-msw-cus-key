@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Brand {
+  id               Int                @id @default(autoincrement())
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime
+  name             String
+  description      String
+  website          String?
+  ceo              String?
+  location         String?
+  Keyboard         Keyboard[]
+  KeyboardProperty KeyboardProperty[]
+}
+
+model Keyboard {
+  id                   Int                    @id @default(autoincrement())
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime
+  name                 String
+  description          String
+  website              String
+  brandId              Int?
+  Brand                Brand?                 @relation(fields: [brandId], references: [id])
+  PropertiesOnKeyboard PropertiesOnKeyboard[]
+
+  @@index([brandId], map: "Keyboard_brandId_fkey")
+}
+
+model KeyboardProperty {
+  id                   Int                    @id @default(autoincrement())
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime
+  name                 String
+  description          String
+  metadata             Json?
+  brandId              Int?
+  Brand                Brand?                 @relation(fields: [brandId], references: [id])
+  PropertiesOnKeyboard PropertiesOnKeyboard[]
+
+  @@index([brandId], map: "KeyboardProperty_brandId_fkey")
+}
+
+model PropertiesOnKeyboard {
+  id               Int              @id @default(autoincrement())
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime
+  keyboardId       Int
+  propertyId       Int
+  Keyboard         Keyboard         @relation(fields: [keyboardId], references: [id])
+  KeyboardProperty KeyboardProperty @relation(fields: [propertyId], references: [id])
+
+  @@index([keyboardId], map: "PropertiesOnKeyboard_keyboardId_fkey")
+  @@index([propertyId], map: "PropertiesOnKeyboard_propertyId_fkey")
+}
