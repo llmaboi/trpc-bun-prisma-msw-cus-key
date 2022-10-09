@@ -1,13 +1,17 @@
 ## Getting Started
 
-### Cloning the repo
+for running
 
 ```sh
-bun create blank ./NAME_HERE
+bun run start
 ```
 
 ### Execute a file (eg. src/index.js)
-    
+
 ```sh
 bun run ./src/index.js
 ```
+
+#### Env info
+
+- Needs `DATABASE_URL`
