@@ -1,6 +1,8 @@
-import { createRouter } from './createRouter';
 import { brandRoutes } from './routes/brand.routes';
+import { t } from './trpc';
 
-export const serverRouter = createRouter().merge('brand.', brandRoutes);
+export const serverRouter = t.router({
+  brand: brandRoutes,
+});
 
 export type ServerRouter = typeof serverRouter;

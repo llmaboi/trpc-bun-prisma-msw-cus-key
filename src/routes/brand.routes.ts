@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { createRouter } from '../createRouter';
+import { t } from '../trpc';
 
 // Best practice to only pluck off the select what you want...
 const defaultBrandSelect = Prisma.validator<Prisma.BrandSelect>()({
@@ -13,12 +13,19 @@ const defaultBrandSelect = Prisma.validator<Prisma.BrandSelect>()({
   KeyboardProperty: true,
 });
 
-export const brandRoutes = createRouter()
+export const brandRoutes = t
   // query
-  .query('getAll', {
-    resolve: async ({ ctx }) => {
+  .router({
+    getAll: t.procedure.query(async ({ ctx }) => {
       // This return logic can be easily be replaced
       //   if in future I don't want prisma...
       return await ctx.prisma.brand.findMany({ select: defaultBrandSelect });
-    },
+    }),
+    // getSome: {
+    //   resolve: async ({ ctx }) => {
+    //     // This return logic can be easily be replaced
+    //     //   if in future I don't want prisma...
+    //     return await ctx.prisma.brand.findMany({ select: defaultBrandSelect });
+    //   },
+    // },
   });
